@@ -9,7 +9,7 @@
         "db",
         "model"
     ],
-    "description": "Swoft 模型实体缓存",
+    "description": "Swoft 基于Aop缓存扩展",
     "authors": [
         {
             "name": "李铭昕",
