@@ -1,5 +1,5 @@
 {
-    "name": "limingxinleo/swoft-entity-cache",
+    "name": "limingxinleo/swoft-aop-cacheable",
     "type": "library",
     "license": "MIT",
     "keywords": [
