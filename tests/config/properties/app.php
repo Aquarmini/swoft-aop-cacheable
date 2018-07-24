@@ -9,7 +9,7 @@
  */
 
 $beanScan = [
-    'SwoftTest\\Db\\Testing',
+    'SwoftTest\\Testing',
     'Swoftx\\Aop\\Cacheable\\',
 ];
 

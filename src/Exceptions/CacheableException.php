@@ -5,12 +5,10 @@
  * @author   limx <715557344@qq.com>
  * @link     https://github.com/limingxinleo/swoft-aop-cacheable
  */
+namespace Swoftx\Aop\Cacheable\Exceptions;
 
-namespace SwoftTest\Cases;
+use Exception;
 
-/**
- * DbTestCache
- */
-abstract class AbstractMysqlCase extends AbstractTestCase
+class CacheableException extends Exception
 {
 }
