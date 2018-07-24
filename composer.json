@@ -23,12 +23,12 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SwoftTest\\Db\\": "tests"
+            "SwoftTest\\": "tests"
         }
     },
     "require": {
         "php": ">=7.0",
-        "swoft/framework": "^1.0"
+        "swoft/framework": "^1.0.22"
     },
     "require-dev": {
         "swoft/swoole-ide-helper": "dev-master",

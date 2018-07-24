@@ -6,11 +6,9 @@
  * @link     https://github.com/limingxinleo/swoft-aop-cacheable
  */
 
-namespace SwoftTest\Db\Cases\Cacheable;
+namespace SwoftTest\Cases\Cacheable;
 
-use SwoftTest\Db\Cases\AbstractMysqlCase;
-use SwoftTest\Db\Testing\Entity\User;
-use Swoftx\Db\Entity\Config\ModelCacheConfig;
+use SwoftTest\Cases\AbstractMysqlCase;
 
 class CacheTest extends AbstractMysqlCase
 {

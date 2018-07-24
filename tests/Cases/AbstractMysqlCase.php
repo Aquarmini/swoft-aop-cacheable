@@ -6,11 +6,7 @@
  * @link     https://github.com/limingxinleo/swoft-aop-cacheable
  */
 
-namespace SwoftTest\Db\Cases;
-
-use SwoftTest\Db\Testing\Entity\Count;
-use SwoftTest\Db\Testing\Entity\Detable;
-use SwoftTest\Db\Testing\Entity\User;
+namespace SwoftTest\Cases;
 
 /**
  * DbTestCache
