@@ -28,6 +28,23 @@ class Demo
      */
     public function output($name, $sex = 1, $msg = 'hello world')
     {
-        return $name;
+        return $this->rand();
+    }
+
+    /**
+     *
+     * @author limx
+     * @Cacheable(key="output:{0}:{1}:{2}", ttl=36000, version=1)
+     * @param $name
+     * @return mixed
+     */
+    public function output2($name, $sex = 1, $msg = 'hello world')
+    {
+        return $this->rand();
+    }
+
+    public function rand()
+    {
+        return rand(0, 9999);
     }
 }

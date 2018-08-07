@@ -22,11 +22,31 @@ class CacheTest extends AbstractMysqlCase
     public function testCacheable()
     {
         $bean = bean(Demo::class);
-        $res = $bean->output('limx');
+        $res1 = $bean->output('limx');
+        $res2 = $bean->output('limx');
 
-        $this->assertEquals('limx', $res);
+        $this->assertEquals($res1, $res2);
+
+        $res3 = $bean->output('Agnes');
+        $this->assertNotEquals($res1, $res3);
 
         $redis = bean(Redis::class);
         $this->assertEquals(1, $redis->exists('output:limx::'));
+
+        $redis->delete('output:limx::');
+        $res4 = $bean->output('limx');
+        $this->assertNotEquals($res1, $res4);
+    }
+
+    public function testCacheableVersion()
+    {
+        $bean = bean(Demo::class);
+        $res1 = $bean->output('limx');
+        $res2 = $bean->output2('limx');
+
+        $this->assertNotEquals($res1, $res2);
+
+        $res3 = $bean->output('limx');
+        $this->assertNotEquals($res1, $res3);
     }
 }

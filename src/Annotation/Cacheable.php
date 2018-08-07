@@ -26,6 +26,11 @@ class Cacheable
     protected $key;
 
     /**
+     * @var int
+     */
+    protected $version = 0;
+
+    /**
      * @var int;
      */
     protected $ttl = 3600;
@@ -46,6 +51,9 @@ class Cacheable
         if (isset($values['key'])) {
             $this->key = $values['key'];
         }
+        if (isset($values['version'])) {
+            $this->version = $values['version'];
+        }
         if (isset($values['ttl'])) {
             $this->ttl = $values['ttl'];
         }
@@ -65,6 +73,14 @@ class Cacheable
     public function getKey()
     {
         return $this->key;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVersion(): int
+    {
+        return $this->version;
     }
 
     /**

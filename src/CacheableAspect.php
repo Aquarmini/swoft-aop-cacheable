@@ -49,12 +49,19 @@ class CacheableAspect
 
         // 缓存命中，直接取数据
         if ($redis->exists($key)) {
-            return unserialize($redis->get($key));
+            $cache = unserialize($redis->get($key));
+            if ($cache instanceof CacheObject) {
+                if ($cache->getAnnotation()->getVersion() === $annotation->getVersion()) {
+                    // 当缓存版本与设置的版本一致时，返回对应数据
+                    return $cache->getData();
+                }
+            }
         }
 
         $result = $proceedingJoinPoint->proceed();
         $ttl = $annotation->getTtl();
-        $redis->set($key, serialize($result), $ttl);
+        $cache = new CacheObject($annotation, $result);
+        $redis->set($key, serialize($cache), $ttl);
 
         return $result;
     }
