@@ -10,7 +10,6 @@
 
 $beanScan = [
     'SwoftTest\\Testing',
-    'Swoftx\\Aop\\Cacheable\\',
 ];
 
 return [
@@ -28,4 +27,9 @@ return [
         ]
     ],
     'db' => require dirname(__FILE__) . DS . 'db.php',
+    'components' => [
+        'custom' => [
+            'Swoftx\\Aop\\Cacheable\\',
+        ],
+    ]
 ];
