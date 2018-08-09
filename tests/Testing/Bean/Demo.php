@@ -13,7 +13,6 @@ use Swoftx\Aop\Cacheable\Annotation\Cacheable;
 
 /**
  * Class Demo
- * @CacheBean
  * @Bean
  * @package SwoftTest\Testing\Bean
  */
