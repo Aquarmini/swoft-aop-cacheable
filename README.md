@@ -4,41 +4,13 @@ Swoft 基于Aop缓存
 [![Build Status](https://travis-ci.org/limingxinleo/swoft-aop-cacheable.svg?branch=master)](https://travis-ci.org/limingxinleo/swoft-aop-cacheable)
 
 ## 使用
-config/properties/app.php中增加对应beanScan
+config/properties/app.php中增加对应的组件
 ~~~
-return [
-    ...
-    'beanScan' => require __DIR__ . DS . 'beanScan.php',
-];
-
-# beanScan.php 如下
-
-$beanScan = [
-    'App\\Breaker',
-    'App\\Controllers',
-    'App\\Core',
-    'App\\Exception',
-    'App\\Fallback',
-    'App\\Lib',
-    'App\\Listener',
-    'App\\Middlewares',
-    'App\\Models',
-    'App\\Pool',
-    'App\\Process',
-    'App\\Services',
-    'App\\Tasks',
-    'App\\WebSocket',
-];
-
-$customBean = [
-    'App\\Biz',
-    'App\\Config',
-    'App\\Jobs',
-    'Swoftx\\Aop\\Cacheable\\',
-];
-
-$beanScan = array_merge($beanScan, $customBean, $entityCacheBean);
-return $beanScan;
+'components' => [
+    'custom' => [
+        'Swoftx\\Aop\\Cacheable\\',
+    ],
+]
 ~~~
 
 增加需要进入缓存切面的类
@@ -47,13 +19,11 @@ return $beanScan;
 
 namespace SwoftTest\Testing\Bean;
 
-use Swoftx\Aop\Cacheable\Annotation\CacheBean;
 use Swoft\Bean\Annotation\Bean;
 use Swoftx\Aop\Cacheable\Annotation\Cacheable;
 
 /**
  * Class Demo
- * @CacheBean
  * @Bean
  * @package SwoftTest\Testing\Bean
  */
