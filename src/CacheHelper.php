@@ -2,7 +2,7 @@
 /**
  * Swoft Entity Cache
  *
- * @author   limx <715557344@qq.com>
+ * @author   limx <limingxin@swoft.org>
  * @link     https://github.com/limingxinleo/swoft-aop-cacheable
  */
 namespace Swoftx\Aop\Cacheable;
@@ -22,5 +22,17 @@ class CacheHelper
             $key = $matches[1];
             return $args[$key] ?? '';
         }, $key);
+    }
+
+    /**
+     * 删除缓存
+     * @author limx
+     * @param string $listener
+     * @param array  $args
+     * @return bool
+     */
+    public static function deleteCache(string $listener, $args = []): bool
+    {
+        return true;
     }
 }

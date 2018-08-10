@@ -2,12 +2,11 @@
 /**
  * Swoft Entity Cache
  *
- * @author   limx <715557344@qq.com>
+ * @author   limx <limingxin@swoft.org>
  * @link     https://github.com/limingxinleo/swoft-aop-cacheable
  */
 namespace SwoftTest\Testing\Bean;
 
-use Swoftx\Aop\Cacheable\Annotation\CacheBean;
 use Swoft\Bean\Annotation\Bean;
 use Swoftx\Aop\Cacheable\Annotation\Cacheable;
 
