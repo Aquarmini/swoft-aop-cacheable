@@ -9,6 +9,8 @@ namespace SwoftTest\Testing\Bean;
 
 use Swoft\Bean\Annotation\Bean;
 use Swoftx\Aop\Cacheable\Annotation\Cacheable;
+use Swoftx\Aop\Cacheable\Annotation\Listener;
+use SwoftTest\Testing\Constant;
 
 /**
  * Class Demo
@@ -21,6 +23,7 @@ class Demo
      *
      * @author limx
      * @Cacheable(key="output:{0}:{1}:{2}", ttl=36000)
+     * @Listener(Constant::LISTENER_DEMO_OUTPUT)
      * @param $name
      * @return mixed
      */

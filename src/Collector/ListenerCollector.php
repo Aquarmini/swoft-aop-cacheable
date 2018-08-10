@@ -25,6 +25,7 @@ class ListenerCollector implements CollectorInterface
             $beanName = $objectAnnotation->getBeanName() ?? $className;
             static::$listeners[$name][] = [
                 'beanName' => $beanName,
+                'className' => $className,
                 'methodName' => $methodName,
                 'objectAnnotation' => $objectAnnotation,
                 'propertyValue' => $propertyValue,

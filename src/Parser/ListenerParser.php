@@ -7,7 +7,6 @@
  */
 namespace Swoftx\Aop\Cacheable\Parser;
 
-use Swoft\Bean\Collector;
 use Swoft\Bean\Parser\AbstractParser;
 use Swoftx\Aop\Cacheable\Collector\ListenerCollector;
 
@@ -19,8 +18,7 @@ class ListenerParser extends AbstractParser
         string $propertyName = '',
         string $methodName = '',
         $propertyValue = null
-    )
-    {
+    ) {
         ListenerCollector::collect($className, $objectAnnotation, $propertyName, $methodName, $propertyValue);
         return null;
     }

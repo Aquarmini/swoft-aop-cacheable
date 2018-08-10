@@ -7,6 +7,12 @@
  */
 namespace Swoftx\Aop\Cacheable;
 
+use Swoft\App;
+use Swoft\Redis\Redis;
+use Swoftx\Aop\Cacheable\Annotation\Cacheable;
+use Swoftx\Aop\Cacheable\Collector\CacheableCollector;
+use Swoftx\Aop\Cacheable\Collector\ListenerCollector;
+
 class CacheHelper
 {
     /**
@@ -33,6 +39,52 @@ class CacheHelper
      */
     public static function deleteCache(string $listener, $args = []): bool
     {
+        $collector = ListenerCollector::getListeners($listener);
+        foreach ($collector as $item) {
+            $className = $item['className'];
+            $methodName = $item['methodName'];
+            $annotation = CacheableCollector::getAnnotation($className, $methodName);
+            $redis = bean(Redis::class);
+
+            if ($annotation && $annotation instanceof Cacheable) {
+                $key = $annotation->getKey();
+                $redisKey = static::parseKey($key, $args);
+                $redis->delete($redisKey);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 重置缓存
+     * @author limx
+     * @param string $listener
+     * @param array  $args
+     * @return bool
+     */
+    public static function reloadCache(string $listener, $args = []): bool
+    {
+        $collector = ListenerCollector::getListeners($listener);
+        foreach ($collector as $item) {
+            $beanName = $item['beanName'];
+            $className = $item['className'];
+            $methodName = $item['methodName'];
+            $annotation = CacheableCollector::getAnnotation($className, $methodName);
+            $redis = bean(Redis::class);
+
+            if ($annotation && $annotation instanceof Cacheable) {
+                $key = $annotation->getKey();
+                $redisKey = static::parseKey($key, $args);
+                $redis->delete($redisKey);
+            }
+
+            if (App::hasBean($beanName)) {
+                $bean = bean($beanName);
+                $bean->$methodName(...$args);
+            }
+        }
+
         return true;
     }
 }
