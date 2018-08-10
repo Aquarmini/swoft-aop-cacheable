@@ -11,6 +11,6 @@ namespace SwoftTest\Cases;
 /**
  * DbTestCache
  */
-abstract class AbstractMysqlCase extends AbstractTestCase
+abstract class AbstractCacheCase extends AbstractTestCase
 {
 }

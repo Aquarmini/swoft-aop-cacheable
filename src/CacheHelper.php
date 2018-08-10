@@ -46,6 +46,7 @@ class CacheHelper
             $annotation = CacheableCollector::getAnnotation($className, $methodName);
             $redis = bean(Redis::class);
 
+            // 删除对应缓存
             if ($annotation && $annotation instanceof Cacheable) {
                 $key = $annotation->getKey();
                 $redisKey = static::parseKey($key, $args);
@@ -72,14 +73,17 @@ class CacheHelper
             $methodName = $item['methodName'];
             $annotation = CacheableCollector::getAnnotation($className, $methodName);
             $redis = bean(Redis::class);
+            $deleted = false;
 
+            // 删除对应缓存
             if ($annotation && $annotation instanceof Cacheable) {
                 $key = $annotation->getKey();
                 $redisKey = static::parseKey($key, $args);
-                $redis->delete($redisKey);
+                $deleted = $redis->delete($redisKey);
             }
 
-            if (App::hasBean($beanName)) {
+            // 重置对应缓存
+            if (App::hasBean($beanName) && $deleted) {
                 $bean = bean($beanName);
                 $bean->$methodName(...$args);
             }

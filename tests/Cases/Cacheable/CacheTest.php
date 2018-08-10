@@ -9,13 +9,13 @@
 namespace SwoftTest\Cases\Cacheable;
 
 use Swoft\Redis\Redis;
-use SwoftTest\Cases\AbstractMysqlCase;
+use SwoftTest\Cases\AbstractCacheCase;
 use SwoftTest\Testing\Bean\Demo;
 use SwoftTest\Testing\Constant;
 use Swoftx\Aop\Cacheable\CacheHelper;
 use Swoftx\Aop\Cacheable\Collector\ListenerCollector;
 
-class CacheTest extends AbstractMysqlCase
+class CacheTest extends AbstractCacheCase
 {
     public function testExample()
     {
@@ -41,67 +41,95 @@ class CacheTest extends AbstractMysqlCase
         $this->assertNotEquals($res1, $res4);
     }
 
+    public function testCacheableByCo()
+    {
+        go(function () {
+            $this->testCacheable();
+        });
+    }
+
     public function testCacheableVersion()
     {
         $bean = bean(Demo::class);
-        $res1 = $bean->output('limx');
-        $res2 = $bean->output2('limx');
+        $res1 = $bean->output('limx2');
+        $res2 = $bean->output2('limx2');
 
         $this->assertNotEquals($res1, $res2);
 
-        $res3 = $bean->output('limx');
+        $res3 = $bean->output('limx2');
         $this->assertNotEquals($res1, $res3);
+    }
+
+    public function testCacheableVersionByCo()
+    {
+        go(function () {
+            $this->testCacheableVersion();
+        });
     }
 
     public function testCacheableReload()
     {
         $bean = bean(Demo::class);
-        $res1 = $bean->output('limx');
-        $res2 = $bean->output('limx');
+        $res1 = $bean->output('limx3');
+        $res2 = $bean->output('limx3');
 
         $this->assertEquals($res1, $res2);
 
-        $res3 = $bean->output('Agnes');
+        $res3 = $bean->output('Agnes3');
         $this->assertNotEquals($res1, $res3);
 
-        $res4 = $bean->reloadOutput('limx');
+        $res4 = $bean->reloadOutput('limx3');
         $this->assertNotEquals($res1, $res4);
 
-        $res5 = $bean->output('limx');
+        $res5 = $bean->output('limx3');
         $this->assertEquals($res4, $res5);
+    }
+
+    public function testCacheableReloadByCo()
+    {
+        go(function () {
+            $this->testCacheableReload();
+        });
     }
 
     public function testListener()
     {
         $res = ListenerCollector::getCollector();
-        $this->assertArrayHasKey('DemoOutput', $res);
+        $this->assertArrayHasKey(Constant::LISTENER_DEMO_OUTPUT, $res);
 
         $bean = bean(Demo::class);
-        $res1 = $bean->output('limx');
-        $res2 = $bean->output('limx');
+        $res1 = $bean->output('limx4');
+        $res2 = $bean->output('limx4');
 
         $this->assertEquals($res1, $res2);
 
-        $bool = CacheHelper::deleteCache(Constant::LISTENER_DEMO_OUTPUT, ['limx']);
+        $bool = CacheHelper::deleteCache(Constant::LISTENER_DEMO_OUTPUT, ['limx4']);
         $this->assertTrue($bool);
         $redis = bean(Redis::class);
-        $this->assertEquals(0, $redis->exists('output:limx::'));
+        $this->assertEquals(0, $redis->exists('output:limx4::'));
 
-        $res3 = $bean->output('limx');
+        $res3 = $bean->output('limx4');
         $this->assertNotEquals($res1, $res3);
 
-        $obj1 = unserialize($redis->get('output:limx::'));
-        $res4 = $bean->output('limx');
-        $obj2 = unserialize($redis->get('output:limx::'));
+        $obj1 = unserialize($redis->get('output:limx4::'));
+        $res4 = $bean->output('limx4');
+        $obj2 = unserialize($redis->get('output:limx4::'));
 
         $this->assertEquals($obj1, $obj2);
 
-        $bool = CacheHelper::reloadCache(Constant::LISTENER_DEMO_OUTPUT, ['limx']);
+        $bool = CacheHelper::reloadCache(Constant::LISTENER_DEMO_OUTPUT, ['limx4']);
         $this->assertTrue($bool);
 
-        $obj3 = unserialize($redis->get('output:limx::'));
+        $obj3 = unserialize($redis->get('output:limx4::'));
         $this->assertNotEquals($obj1, $obj3);
-        $res5 = $bean->output('limx');
+        $res5 = $bean->output('limx4');
         $this->assertNotEquals($res4, $res5);
+    }
+
+    public function testListenerByCo()
+    {
+        go(function () {
+            $this->testListener();
+        });
     }
 }
