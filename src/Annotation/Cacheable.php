@@ -36,6 +36,11 @@ class Cacheable
     protected $ttl = 3600;
 
     /**
+     * @var bool
+     */
+    protected $reload = false;
+
+    /**
      * Cacheable constructor.
      *
      * @param array $values
@@ -56,6 +61,9 @@ class Cacheable
         }
         if (isset($values['ttl'])) {
             $this->ttl = $values['ttl'];
+        }
+        if (isset($values['reload'])) {
+            $this->reload = $values['reload'];
         }
     }
 
@@ -90,5 +98,13 @@ class Cacheable
     {
         // 增加0到600秒随机偏移量
         return $this->ttl + rand(0, 600);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReload(): bool
+    {
+        return $this->reload;
     }
 }

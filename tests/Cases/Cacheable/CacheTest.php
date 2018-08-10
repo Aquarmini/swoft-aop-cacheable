@@ -49,4 +49,22 @@ class CacheTest extends AbstractMysqlCase
         $res3 = $bean->output('limx');
         $this->assertNotEquals($res1, $res3);
     }
+
+    public function testCacheableReload()
+    {
+        $bean = bean(Demo::class);
+        $res1 = $bean->output('limx');
+        $res2 = $bean->output('limx');
+
+        $this->assertEquals($res1, $res2);
+
+        $res3 = $bean->output('Agnes');
+        $this->assertNotEquals($res1, $res3);
+
+        $res4 = $bean->reloadOutput('limx');
+        $this->assertNotEquals($res1, $res4);
+
+        $res5 = $bean->output('limx');
+        $this->assertEquals($res4, $res5);
+    }
 }

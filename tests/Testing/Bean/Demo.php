@@ -33,6 +33,18 @@ class Demo
     /**
      *
      * @author limx
+     * @Cacheable(key="output:{0}:{1}:{2}", ttl=36000, reload=true)
+     * @param $name
+     * @return mixed
+     */
+    public function reloadOutput($name, $sex = 1, $msg = 'hello world')
+    {
+        return $this->output($name, $sex, $msg);
+    }
+
+    /**
+     *
+     * @author limx
      * @Cacheable(key="output:{0}:{1}:{2}", ttl=36000, version=1)
      * @param $name
      * @return mixed

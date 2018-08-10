@@ -47,8 +47,8 @@ class CacheableAspect
         $args = $proceedingJoinPoint->getArgs();
         $key = CacheHelper::parseKey($key, $args);
 
-        // 缓存命中，直接取数据
-        if ($redis->exists($key)) {
+        // 缓存命中且不需要Reload时，直接取数据
+        if ($redis->exists($key) && $annotation->isReload() === false) {
             $cache = unserialize($redis->get($key));
             if ($cache instanceof CacheObject) {
                 if ($cache->getAnnotation()->getVersion() === $annotation->getVersion()) {
